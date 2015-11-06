@@ -3,8 +3,8 @@ var bodyParser = require('body-parser');
 var app = express();
 
 var cfg = {
-  port: process.env.PORT,
-  hostname: process.env.IP
+  port: process.env.PORT || 8080,
+  hostname: process.env.IP || '127.0.0.1'
 };
 
 app.set('view engine', 'ejs');
