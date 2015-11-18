@@ -50,5 +50,6 @@ app.get('/messages', function (req, res) {
 });
 
 app.get('/', function (req, res) {
-  res.render('index');
+  // res.render('index');
+  res.render('instructions');
 });
