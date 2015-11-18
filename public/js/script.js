@@ -18,11 +18,8 @@ function getMessages (callback) {
   });
 }
 
-function sanitizeHtml (html) {
-  return $('<div/>').text(html).html();
-}
 function messageTemplate (message) {
-  return '<li>' + sanitizeHtml(message.user + ': ' + message.content) + '</li>';
+  return '<li>' + message.user + ': ' + message.content + '</li>';
 }
 
 function pollForChanges () {
@@ -51,4 +48,4 @@ $('#submit-message').submit(function (e) {
 });
 
 
-var interval = setInterval(pollForChanges, 200);
+var interval = setInterval(pollForChanges, 300);

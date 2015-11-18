@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var escape = require('html-escape');
 var app = express();
 
 var cfg = {
@@ -20,8 +21,13 @@ var server = app.listen(cfg.port, cfg.hostname, function () {
 /* "business logic" */
 var messages = [];
 
+function _formatString (str, truncateLength) {
+  var truncateLength = truncateLength || 64;
+  return escape(str).substring(0, truncateLength);
+}
+
 function addMessage (user, content) {
-  messages.push({user: user, content: content});
+  messages.push({user: _formatString(user, 32), content: _formatString(content, 64)});
   if (messages.length > 20) {
     messages.shift();
   }
