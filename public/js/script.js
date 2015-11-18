@@ -1,21 +1,11 @@
-var noop = function () {};
-
 function sendMessage (user, content, callback) {
-  callback = callback || noop;
   $.post('/send', {user: user, content: content})
-  .error(callback)
-  .success(function (data) {
-    callback(null, data);
-  });
+  .done(callback);
 }
 
 function getMessages (callback) {
-  callback = callback || noop;
   $.get('/messages')
-  .error(callback)
-  .success(function (data) {
-    callback(null, data);
-  });
+  .done(callback);
 }
 
 function messageTemplate (message) {
@@ -23,8 +13,7 @@ function messageTemplate (message) {
 }
 
 function pollForChanges () {
-  getMessages(function (err, messages) {
-    if (err) { return console.log(err); }
+  getMessages(function (messages) {
     $('.messages').empty();
     messages.forEach(function(message) {
       $('.messages').append(messageTemplate(message));
@@ -35,13 +24,11 @@ function pollForChanges () {
 
 $('#submit-message').submit(function (e) {
   e.preventDefault();
-  var $contentInput = $(this).find('input[name="content"]');
-  var user = $(this).find('input[name="user"]').val();
+  var $contentInput = $('#submit-content');
+  var user = $('#submit-user').val();
   var content = $contentInput.val();
 
-  sendMessage(user, content, function (err) {
-    if (err) { return console.log(err); }
-
+  sendMessage(user, content, function () {
     $contentInput.val('').focus();
     pollForChanges();
   });
